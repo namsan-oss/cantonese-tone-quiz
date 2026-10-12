@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0e6c68">
+<title>広東語 声調ききわけクイズ｜広東語フィードバック版</title>
+<style>
+:root{color-scheme:light;--ink:#1d3133;--muted:#596c70;--bg:#f2f7f5;--panel:#fff;--line:#d7e5e1;--brand:#087b74;--brand2:#e3f5f1;--focus:#163f86;--wrong:#a94444;--right:#1c7152;--shadow:0 12px 34px rgba(17,64,62,.065)}
+*{box-sizing:border-box}[hidden]{display:none!important}html{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif}body{margin:0;background:var(--bg);color:var(--ink)}button{font:inherit;cursor:pointer}button:focus-visible{outline:3px solid var(--focus);outline-offset:2px}button:disabled{cursor:default;opacity:.65}
+.wrap{max-width:830px;margin:0 auto;padding:26px 18px 52px}header{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px}h1{font-size:clamp(1.43rem,4vw,2rem);line-height:1.25;margin:.25rem 0 .48rem;letter-spacing:-.04em}.eyebrow{color:var(--brand);font-weight:750;font-size:.82rem;letter-spacing:.08em}.sub{font-size:.94rem;color:var(--muted);line-height:1.65;margin:0}.tag{white-space:nowrap;background:#dcece8;border-radius:999px;padding:6px 12px;font-size:.79rem;color:#146259;font-weight:700}
+.notice{padding:12px 15px;border-radius:12px;line-height:1.55;background:#fff9e5;border:1px solid #e9d7a3;color:#654f10;font-size:.85rem;margin:10px 0 18px}.notice[hidden]{display:none}.notice.ok{background:#e6f5ef;border-color:#c4dfd0;color:#27634e}.notice strong{font-weight:740}.retry{margin-left:8px;border:1px solid currentColor;border-radius:7px;padding:3px 9px;background:transparent;color:inherit}.panel{border:1px solid var(--line);background:var(--panel);box-shadow:var(--shadow);border-radius:18px;padding:clamp(17px,4vw,29px)}
+.topline{display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--muted);font-size:.84rem;font-weight:650}.target{border-radius:14px;background:linear-gradient(140deg,#eefaf8,#f8fcfb);border:1px solid #cfe8e1;text-align:center;padding:21px 10px 23px;margin-top:16px}.tiny{font-size:.83rem;color:var(--muted)}.han{font-family:"PingFang HK","Noto Sans CJK TC","Microsoft JhengHei",sans-serif;font-size:clamp(4rem,15vw,6.4rem);font-weight:650;line-height:1.36}.speak{border:1px solid #9fc7be;background:white;color:#075f59;border-radius:10px;padding:10px 16px;font-weight:700;font-size:.92rem;min-height:44px}.speak:hover:not(:disabled){background:var(--brand2)}.question{margin:21px 0 12px;font-size:1.02rem;font-weight:750}.hint{font-size:.82rem;font-weight:400;color:var(--muted);margin-top:5px}
+.options{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.option{display:flex;align-items:center;justify-content:center;width:100%;min-width:0;min-height:62px;text-align:center;border:1px solid var(--line);border-radius:12px;padding:9px 3px;background:#fff;color:var(--ink);transition:background-color .12s,border-color .12s}
+.option:hover:not(:disabled){background:#f5faf9;border-color:#a5c9c0}
+.option.selected{border:2px solid var(--brand);background:var(--brand2);padding:8px 2px}
+.option.correct{border:2px solid #68b48c;background:#effbf3;padding:8px 2px}
+.option.incorrect{border:2px solid #d59090;background:#fff2f2;padding:8px 2px}
+.letter{color:#376260;font-weight:800;font-size:1.25rem}
+.option.selected .letter{color:#07554f}
+/* 回答後だけ漢字・千島式・正誤を展開する */
+.options.revealed{grid-template-columns:repeat(2,minmax(0,1fr))}
+.options.revealed .option:nth-child(5){grid-column:1/-1}
+.option.revealed{justify-content:flex-start;gap:10px;min-height:77px;text-align:left;padding:10px 12px}
+.option.revealed.selected,.option.revealed.correct,.option.revealed.incorrect{padding:9px 11px}
+.option.revealed .letter{font-size:1rem;display:inline-flex;align-items:center;justify-content:center;flex:0 0 34px;height:40px;border-radius:8px;background:#e7f0ed}
+.option.revealed.selected .letter{background:#c9eae2}
+.optionInfo{min-width:0;flex:1}
+.optionHan{font-family:"PingFang HK","Noto Sans CJK TC","Microsoft JhengHei",sans-serif;font-size:1.65rem;font-weight:580;line-height:1.2}
+.optionState{font-size:.76rem;font-weight:740;white-space:nowrap;color:var(--brand)}
+.detail{color:var(--muted);font-size:.75rem;line-height:1.35;margin-top:4px}
+.confirm{display:block;width:100%;margin-top:15px;background:var(--brand);color:#fff;border:0;border-radius:12px;padding:14px;font-weight:750;font-size:1rem;min-height:48px}
+.confirm:disabled{background:#9aaba7;opacity:1}
+.result{margin:0 0 15px;padding:13px 15px;scroll-margin-top:14px;border-radius:12px;background:#eef9f3;border:1px solid #c8e7d6;font-size:.93rem;line-height:1.6}.result.wrong{background:#fff4f1;border-color:#eccbc2}.result b{font-size:1.02rem}.next{display:block;width:100%;margin-top:15px;background:#1b4e4b;color:#fff;border:0;border-radius:12px;padding:14px;font-weight:750;font-size:1rem;min-height:48px}
+.aside{font-size:.79rem;line-height:1.7;color:var(--muted);margin:16px 4px 0}.aside strong{color:var(--ink)}.audioInfo{margin:12px 4px 0;color:var(--muted);font-size:.79rem}.audioInfo summary{cursor:pointer}.audioInfo .aside{margin:7px 0 0}
+@media(max-width:520px){.options.revealed{grid-template-columns:1fr}.options.revealed .option:nth-child(5){grid-column:auto}.option.revealed{min-height:68px}.optionHan{font-size:1.55rem}.optionState{font-size:.72rem}}
+@media(max-width:400px){.options{gap:6px}.option{min-height:58px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><div><div class="eyebrow">粵語 · TONE TRAINER</div><h1>広東語 声調ききわけクイズ</h1><p class="sub">音だけを聞き比べて、同じ声調の音声を5択から選びます。</p></div><span class="tag">30字 試作版</span></header>
+<div class="notice" id="voiceNotice" role="status">広東語の音声データを準備しています…</div>
+<main class="panel">
+<div class="topline"><span id="qNumber">第1問</span><span>選択肢の漢字は回答後に表示</span></div>
+<section class="target"><div class="tiny">この漢字の声調を聞く</div><div class="han" id="targetChar" lang="zh-HK">思</div><button type="button" class="speak" id="targetSpeak">🔊 問題の音声を聞く</button><div class="detail" id="targetDetail" hidden></div></section>
+<div class="question">同じ声調はどれ？<div class="hint">A〜Eを押して聞き比べ、答えが決まったら「決定」を押してください。</div></div>
+<div class="result" id="result" hidden aria-live="polite"></div>
+<div class="options" id="options" role="group" aria-label="解答の選択肢"></div>
+<button type="button" class="confirm" id="confirm" disabled>決定</button>
+<button type="button" class="next" id="next" hidden>次の問題へ →</button>
+</main>
+<details class="audioInfo"><summary>音声と表記について</summary><p class="aside"><strong>音声：</strong><a href="https://github.com/namsan-oss/name-cantonese-plus" target="_blank" rel="noopener noreferrer">人名広東語アプリ</a>と同じ音節・声調別の事前生成音声（Cantone / Amazon HiuJin）をオンラインで読み込みます。日本語音声合成は使用しません。初回は通信が必要です。配布元は<a href="https://huggingface.co/datasets/AlienKevin/cantone" target="_blank" rel="noopener noreferrer">Cantone（MIT）</a>。合成音声のため発音の正確さは教材公開前に確認してください。正解時のみ「好！」（hou2）が流れます。不正解時は音声を鳴らしません。<br><strong>表記：</strong>千島式・長母音はaa。声調は1〜6の数字です。</p></details>
+</div>
+<script>
+'use strict';
+// 試作版30字。各字につき一般的な広東語の読みを1つだけ採用。
+// 粤拼は元データとして保持し、解答時の表示だけ千島式に変換する。音声は人名アプリのCantone音声データを使用。
+const WORDS = [
+  {han:'思',jp:'si1',tone:1},{han:'三',jp:'saam1',tone:1},{han:'花',jp:'faa1',tone:1},{han:'東',jp:'dung1',tone:1},{han:'心',jp:'sam1',tone:1},
+  {han:'史',jp:'si2',tone:2},{han:'水',jp:'seoi2',tone:2},{han:'九',jp:'gau2',tone:2},{han:'點',jp:'dim2',tone:2},{han:'手',jp:'sau2',tone:2},
+  {han:'試',jp:'si3',tone:3},{han:'細',jp:'sai3',tone:3},{han:'四',jp:'sei3',tone:3},{han:'半',jp:'bun3',tone:3},{han:'快',jp:'faai3',tone:3},
+  {han:'時',jp:'si4',tone:4},{han:'牛',jp:'ngau4',tone:4},{han:'零',jp:'ling4',tone:4},{han:'平',jp:'ping4',tone:4},{han:'前',jp:'cin4',tone:4},
+  {han:'市',jp:'si5',tone:5},{han:'我',jp:'ngo5',tone:5},{han:'有',jp:'jau5',tone:5},{han:'母',jp:'mou5',tone:5},{han:'晚',jp:'maan5',tone:5},
+  {han:'事',jp:'si6',tone:6},{han:'麵',jp:'min6',tone:6},{han:'電',jp:'din6',tone:6},{han:'飯',jp:'faan6',tone:6},{han:'字',jp:'zi6',tone:6}
+];
+// 千島英一氏の千島式表記。現行UIでは声調記号を末尾の数字1～6で示す。
+// 例：saam1 → saam1, seoi2 → söü2, cin4 → chin4, zi6 → zhi6。
+// 変換対象は音節の声母＋韻母であり、声調番号は変えない。
+const CHISHIMA_INITIALS = {z:'zh', c:'ch', j:'y'};
+const CHISHIMA_FINALS = {
+  eoi:'öü', eon:'ön', eot:'öt',
+  oe:'ö', oeng:'öng', oek:'ök',
+  yu:'ü', yun:'ün', yut:'üt'
+};
+const INITIALS = ['gw','kw','ng','b','p','m','f','d','t','n','l','z','c','s','g','k','h','j','w'];
+function toChishima(jyutping){
+  const parsed=/^([a-z]+)([1-6])$/.exec(jyutping);
+  if(!parsed)return jyutping;
+  const [,syllable,tone]=parsed;
+  if(syllable==='m' || syllable==='ng')return syllable+tone;
+  const initial=INITIALS.find(part=>syllable.startsWith(part)) || '';
+  const final=syllable.slice(initial.length);
+  const onset=CHISHIMA_INITIALS[initial] || initial;
+  let rhyme=CHISHIMA_FINALS[final];
+  if(!rhyme)rhyme=final.startsWith('aa') ? 'aa'+final.slice(2) : final;
+  return onset+rhyme+tone;
+}
+// 正解したときだけ、広東語の褒め言葉を音節音声として流す。日本語TTSは使わない。
+const SUCCESS_SOUND = {han:'好',jp:'hou2',tone:2};
+const byTone = Array.from({length:6},(_,i)=>WORDS.filter(w=>w.tone===i+1));
+const $ = (id)=>document.getElementById(id);
+function sample(arr){return arr[Math.floor(Math.random()*arr.length)];}
+function shuffle(arr){const copy=arr.slice();for(let i=copy.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[copy[i],copy[j]]=[copy[j],copy[i]];}return copy;}
+let questionCount=0;
+let current=null, answeredThis=false, selectedIndex=null, lastTarget=null, audioReady=false, player=null, audioManifest=null;
+// 人名広東語プラスのaudio.js / audio-manifest.jsをオンラインで共用する。
+// モジュールが読み込めない場合は同じ音声索引を取得し、元の再生方式で再生する。
+const CDN='https://cdn.jsdelivr.net/gh/namsan-oss/name-cantonese-plus@main/';
+const RAW='https://raw.githubusercontent.com/namsan-oss/name-cantonese-plus/main/';
+let audioSource='';
+function audioKey(jp){return jp.toLowerCase().replace(/u:/g,'ü');}
+function voiceMessage(text,ok=false){
+ const notice=$('voiceNotice');notice.hidden=false;notice.className='notice'+(ok?' ok':'');notice.textContent=text;
+}
+function updateSoundButtons(){
+ document.querySelectorAll('[data-speak]').forEach(b=>{b.disabled=!audioReady;b.title=audioReady?'広東語の音声を聞く':'音声データを読み込み中です';});
+ if(!answeredThis)$('confirm').disabled=!audioReady || selectedIndex===null;
+}
+// 元アプリのWeb Audio方式に合わせた、遠隔配信のフォールバック実装。
+class RemotePlayer {
+ constructor(onState,manifest,base){this.onState=onState;this.manifest=manifest;this.base=base;this.generation=0;this.sources=[];this.packs=new Map();this.buffers=new Map();}
+ stop(){this.generation++;for(const s of this.sources){try{s.stop()}catch(e){}}this.sources=[];this.onState('idle');}
+ async play(sounds){
+  this.stop();const generation=this.generation;
+  try{
+   const Context=globalThis.AudioContext||globalThis.webkitAudioContext;
+   if(!Context)throw new Error('unsupported');
+   this.context??=new Context();
+   // iPhoneでは、ユーザー操作中にAudioContextを再開する必要がある。
+   await this.context.resume();
+   if(generation!==this.generation)return;
+   this.onState('loading');
+   const buffers=await Promise.all(sounds.map(async sound=>{
+    if(this.buffers.has(sound.key))return this.buffers.get(sound.key);
+    const entry=this.manifest[sound.key];if(!entry)throw new Error('missing');
+    const [file,offset,length]=entry;
+    if(!this.packs.has(file))this.packs.set(file,fetch(this.base+file).then(r=>{if(!r.ok)throw new Error('network');return r.arrayBuffer()}).catch(e=>{this.packs.delete(file);throw e}));
+    const pack=await this.packs.get(file);
+    const buffer=await this.context.decodeAudioData(pack.slice(offset,offset+length));
+    this.buffers.set(sound.key,buffer);return buffer;
+   }));
+   if(generation!==this.generation)return;
+   let when=this.context.currentTime+0.05;
+   buffers.forEach((buffer,index)=>{
+    if(index&&sounds[index].group!==sounds[index-1].group)when+=0.2;
+    const source=this.context.createBufferSource();source.buffer=buffer;source.connect(this.context.destination);
+    this.sources.push(source);source.start(when);when+=buffer.duration;
+   });
+   this.sources.at(-1).onended=()=>{if(generation===this.generation){this.sources=[];this.onState('idle');}};
+   this.onState('playing');
+  }catch(e){if(generation===this.generation){this.stop();this.onState('error',e.message==='missing'?'この音節の音声がありません。':'音声の取得に失敗しました。インターネット接続を確認して再試行してください。');}}
+ }
+}
+function playerState(state,message){
+ if(state==='error')voiceMessage(message);
+ else if(state==='loading')voiceMessage('🔊 音声を読み込み中…',true);
+ else if(state==='playing')$('voiceNotice').hidden=true;
+ else if(state==='idle'&&audioReady)$('voiceNotice').hidden=true;
+}
+function checkAvailable(){
+ const missing=WORDS.filter(w=>!audioManifest[audioKey(w.jp)]);
+ if(missing.length){audioReady=false;voiceMessage('音声データが見つからない漢字があります：'+missing.map(w=>w.han+'（'+w.jp+'）').join('、'));return false;}
+ // 出題に必要な全ての音節が登録された場合だけ解答を有効化。
+ return true;
+}
+async function initializeAudio(){
+ voiceMessage('広東語の音声データを準備しています…');
+ try{
+  // CDNはJSモジュールを適切なMIME typeで配信する。
+  const [audioModule,indexModule]=await Promise.all([import(CDN+'audio.js'),import(CDN+'audio-manifest.js')]);
+  audioManifest=indexModule.audioManifest;
+  audioSource='CDN';
+  if(!checkAvailable())return;
+  player=new audioModule.PinyinPlayer(playerState);
+  audioReady=true;updateSoundButtons();$('voiceNotice').hidden=true;
+ }catch(cdnError){
+  try{
+   // CDNでモジュールを取得できないブラウザでは、GitHub Raw の索引を読む。
+   // コードを実行せず、JSONの内容だけを使用する。
+   const r=await fetch(RAW+'audio-manifest.js');if(!r.ok)throw new Error('manifest');
+   const source=await r.text();
+   const opening=source.indexOf('{'),ending=source.lastIndexOf('}');
+   if(opening<0||ending<opening)throw new Error('manifest');
+   audioManifest=JSON.parse(source.slice(opening,ending+1));
+   audioSource='GitHub';
+   if(!checkAvailable())return;
+   player=new RemotePlayer(playerState,audioManifest,RAW);
+   audioReady=true;updateSoundButtons();$('voiceNotice').hidden=true;
+  }catch(rawError){
+   console.warn('音声の読み込みに失敗:',cdnError,rawError);
+   audioReady=false;updateSoundButtons();
+   voiceMessage('広東語の音声を読み込めませんでした。ネット接続を確認し、「再試行」を押してください。');
+   const retry=document.createElement('button');retry.type='button';retry.className='retry';retry.textContent='再試行';
+   retry.addEventListener('click',()=>{retry.remove();initializeAudio();});$('voiceNotice').append(retry);
+  }
+ }
+}
+function speak(w){
+ if(!audioReady||!player)return;
+ const key=audioKey(w.jp);
+ if(!audioManifest?.[key]){voiceMessage('この発音の音声は未収録です：'+w.jp);return;}
+ // 正確な声調を指定。漢字を日本語でTTSに渡す処理は一切なし。
+ player.play([{key,group:0,char:w.han}]);
+}
+function nextQuestion(){
+ if(player)player.stop();
+ answeredThis=false;selectedIndex=null;const targetPool=WORDS.filter(w=>!lastTarget || w.han!==lastTarget);const target=sample(targetPool);lastTarget=target.han;
+ const correctChoice=sample(byTone[target.tone-1].filter(w=>w.han!==target.han));
+ const otherTones=shuffle([1,2,3,4,5,6].filter(t=>t!==target.tone)).slice(0,4);
+ const choices=shuffle([correctChoice,...otherTones.map(t=>sample(byTone[t-1]))]);
+ current={target,correctChoice,choices};
+ questionCount++;$('qNumber').textContent='第'+questionCount+'問';$('targetChar').textContent=target.han;
+ $('targetDetail').hidden=true;$('targetDetail').textContent='千島式：'+toChishima(target.jp)+'　／　第'+target.tone+'声';$('result').hidden=true;$('next').hidden=true;$('confirm').hidden=false;$('confirm').disabled=true;$('confirm').textContent='決定';
+ const box=$('options');box.classList.remove('revealed');box.replaceChildren();
+ choices.forEach((w,i)=>{
+  const option=document.createElement('button');option.type='button';option.className='option';option.dataset.choiceIndex=String(i);option.dataset.speak='1';option.setAttribute('aria-pressed','false');option.setAttribute('aria-label','音声'+ 'ABCDE'[i]+'を再生して選ぶ');
+  option.title='音声'+'ABCDE'[i]+'を再生';
+  const letter=document.createElement('span');letter.className='letter';letter.textContent='ABCDE'[i];
+  const mid=document.createElement('div');mid.className='optionInfo';mid.hidden=true;
+  const han=document.createElement('div');han.className='optionHan';han.lang='zh-HK';han.textContent=w.han;
+  const detail=document.createElement('div');detail.className='detail';detail.textContent='千島式：'+toChishima(w.jp)+' ／ 第'+w.tone+'声';
+  mid.append(han,detail);
+  const state=document.createElement('span');state.className='optionState';state.hidden=true;
+  option.append(letter,mid,state);
+  option.addEventListener('click',()=>{
+   speak(w);
+   if(answeredThis)return;
+   selectedIndex=i;
+   document.querySelectorAll('.option').forEach((b,j)=>{
+    const active=j===selectedIndex;
+    b.classList.toggle('selected',active);
+    b.setAttribute('aria-pressed',String(active));
+    b.setAttribute('aria-label','音声'+'ABCDE'[j]+'を再生'+(active?'（選択中）':'して選択'));
+   });
+   $('confirm').disabled=false;
+  });
+  box.append(option);
+ });
+ updateSoundButtons();
+}
+function answer(){
+ if(answeredThis || selectedIndex===null || !audioReady)return;
+ answeredThis=true;
+ const selected=current.choices[selectedIndex];
+ const ok=selected.tone===current.target.tone;
+ const rows=[...document.querySelectorAll('.option')];
+ rows.forEach((row,i)=>{
+  const w=current.choices[i];
+  row.classList.add('revealed');
+  row.querySelector('.optionInfo').hidden=false;
+  row.querySelector('.optionState').hidden=false;
+  row.setAttribute('aria-label','音声'+'ABCDE'[i]+'、'+w.han+'、第'+w.tone+'声。押すと発音を再生');
+  const state=row.querySelector('.optionState');
+  if(w.tone===current.target.tone){row.classList.add('correct');state.textContent='✓ 正解';}
+  else if(i===selectedIndex){row.classList.add('incorrect');state.textContent='選んだ音声';}
+  else state.textContent='';
+ });
+ $('options').classList.add('revealed');
+ $('confirm').hidden=true;
+ $('targetDetail').hidden=false;
+ const result=$('result');result.hidden=false;result.className='result'+(ok?'':' wrong');
+ const correct=current.correctChoice;
+ result.textContent='';
+ const heading=document.createElement('b');heading.textContent=ok?'正解！':'不正解。もう一度聞き比べてみましょう。';
+ const explanation=document.createElement('div');explanation.textContent='問題「'+current.target.han+'」（'+toChishima(current.target.jp)+'）は第'+current.target.tone+'声。正解は「'+correct.han+'」（'+toChishima(correct.jp)+'）です。';
+ result.append(heading,explanation);
+ if(!ok){const mix=document.createElement('div');mix.textContent='選んだ「'+selected.han+'」（'+toChishima(selected.jp)+'）は第'+selected.tone+'声です。';result.append(mix);}
+ $('next').hidden=false;
+ // 解答直前の選択肢音声が続いていたら停止。正解時だけ「好！」を再生する。
+ if(player)player.stop();
+ if(ok && audioManifest?.[audioKey(SUCCESS_SOUND.jp)])speak(SUCCESS_SOUND);
+ requestAnimationFrame(()=>result.scrollIntoView({behavior:'smooth',block:'center'}));
+}
+$('confirm').addEventListener('click',answer);
+$('targetSpeak').dataset.speak='1';$('targetSpeak').addEventListener('click',()=>{if(current)speak(current.target);});
+$('next').addEventListener('click',nextQuestion);
+nextQuestion();initializeAudio();
+</script>
+</body>
+</html>
